@@ -7,6 +7,10 @@ angular.module('ui.tinymce', [])
     uiTinymceConfig = uiTinymceConfig || {};
     var generatedIds = 0;
 
+    function simple(v) {
+      return v.replace(/\s+/g,'');
+    }
+
     return {
       priority: 10,
       require: 'ngModel',
@@ -14,8 +18,8 @@ angular.module('ui.tinymce', [])
         var editor, expression, options, tinyInstance,
           updateView = function () {
             var v = editor.getContent({ format : 'raw' });
-            var newStripped = v.replace(/\s+/g,' ').replace(/^\s+|\s+$/g, '');
-            var curStripped = ngModel.$viewValue.replace(/\s+/g,' ').replace(/^\s+|\s+$/g, '');
+            var newStripped = simple(v);
+            var curStripped = simple(ngModel.$viewValue);
             if (newStripped !== curStripped) {
               ngModel.$setViewValue(v);
               if (!scope.$root.$$phase) {
